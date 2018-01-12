@@ -1,6 +1,6 @@
 https://www.codementor.io/rogargon/simple-django-web-application-tutorial-du107rmn4
 
-#criando
+# criando
 django-admin.py startproject myrecommendations
 
 cd myrecommendations
@@ -12,12 +12,12 @@ myrecommendations/settings.py
 
 python manage.py migrate
 
-#criando o super usuário
+## criando o super usuário
 python manage.py createsuperuser
 jczars
 d4jp1o9s4
 
-#creando app
+## creando app
 python manage.py startapp myrestaurants
 
 myrecommendations/settings.py
@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'myrestaurants',
 ]
 
-#creando modelo de dados
+## creando modelo de dados
 
 models.py
 from django.db import models
@@ -85,7 +85,7 @@ class RestaurantReview(Review):
 python manage.py makemigrations myrestaurants
 python manage.py migrate
 
-#registrar no admin
+## registrar no admin
 admin.py
 from django.contrib import admin
 import models
@@ -118,7 +118,7 @@ from views import RestaurantCreate, DishCreate, RestaurantDetail
 
 urlpatterns = [
 
-# List latest 5 restaurants: /myrestaurants/
+## List latest 5 restaurants: /myrestaurants/
     url(r'\^\$',
         ListView.as_view(
         	queryset=Restaurant.objects.filter(date__lte=timezone.now()).order_by('date')[:5],
@@ -126,12 +126,12 @@ urlpatterns = [
         	template_name='myrestaurants/restaurant_list.html'),
         name='restaurant_list'),
 
-# Restaurant details, ex.: /myrestaurants/restaurants/1/
+## Restaurant details, ex.: /myrestaurants/restaurants/1/
     url(r'\^restaurants/(?P<pk>\d+)/\$',
         RestaurantDetail.as_view(),
         name='restaurant_detail'),
 
-# Restaurant dish details, ex: /myrestaurants/restaurants/1/dishes/1/
+## Restaurant dish details, ex: /myrestaurants/restaurants/1/dishes/1/
     url(r'\^restaurants/(?P<pkr>\d+)/dishes/(?P<pk>\d+)/\$',
         DetailView.as_view(
         	model=Dish,
@@ -143,7 +143,7 @@ urlpatterns = [
         RestaurantCreate.as_view(),
         name='restaurant_create'),
 
-# Edit restaurant details, ex.: /myrestaurants/restaurants/1/edit/
+## Edit restaurant details, ex.: /myrestaurants/restaurants/1/edit/
     url(r'\^restaurants/(?P<pk>\d+)/edit/\$',
         UpdateView.as_view(
         	model = Restaurant,
@@ -151,12 +151,12 @@ urlpatterns = [
         	form_class = RestaurantForm),
         name='restaurant_edit'),
 
-# Create a restaurant dish, ex.: /myrestaurants/restaurants/1/dishes/create/
+## Create a restaurant dish, ex.: /myrestaurants/restaurants/1/dishes/create/
     url(r'\^restaurants/(?P<pk>\\d+)/dishes/create/\$',
     	DishCreate.as_view(),
         name='dish_create'),
 
-# Edit restaurant dish details, ex.: /myrestaurants/restaurants/1/dishes/1/edit/
+## Edit restaurant dish details, ex.: /myrestaurants/restaurants/1/dishes/1/edit/
     url(r'\^restaurants/(?P<pkr>\\d+)/dishes/(?P<pk>\\d+)/edit/\$',
     	UpdateView.as_view(
     		model = Dish,
@@ -164,14 +164,14 @@ urlpatterns = [
     		form_class = DishForm),
     	name='dish_edit'),
 
-# Create a restaurant review, ex.: /myrestaurants/restaurants/1/reviews/create/
-# Unlike the previous patterns, this one is implemented using a method view instead of a class view
+## Create a restaurant review, ex.: /myrestaurants/restaurants/1/reviews/create/
+## Unlike the previous patterns, this one is implemented using a method view instead of a class view
     url(r'\^restaurants/(?P<pk>\\d+)/reviews/create/\$',
     	'myrestaurants.views.review',
     	name='review_create'),
 ]
 
-#alterando as views
+## alterando as views
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -219,7 +219,7 @@ def review(request, pk):
   review.save()
   return HttpResponseRedirect(reverse('myrestaurants:restaurant_detail', args=(restaurant.id,)))
 
-#criando html
+## criando html
 myrestaurants/templates/myrestaurants
 
 base.html
@@ -348,7 +348,7 @@ Created by {{ restaurant.user }} on {{ restaurant.date }}
 
 {% endblock %}
 
-#creando forms
+## creando forms
 myrestaurants/forms.py
 
 from django.forms import ModelForm
@@ -379,5 +379,5 @@ forms.html
 
 {% endblock %}
 
-#Schema Migration
+## Schema Migration
 python manage.py makemigrations myrestaurantstemplates
